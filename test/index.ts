@@ -1,19 +1,34 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
 
-describe("Greeter", function () {
+describe("Transactions", function () {
   it("Should return the new greeting once it's changed", async function () {
-    const Greeter = await ethers.getContractFactory("Greeter");
-    const greeter = await Greeter.deploy("Hello, world!");
-    await greeter.deployed();
-
-    expect(await greeter.greet()).to.equal("Hello, world!");
-
-    const setGreetingTx = await greeter.setGreeting("Hola, mundo!");
-
-    // wait until the transaction is mined
-    await setGreetingTx.wait();
-
-    expect(await greeter.greet()).to.equal("Hola, mundo!");
+    const [, addr1, addr2] = await ethers.getSigners();
+    const amount = 1;
+    const Transactions = await ethers.getContractFactory("Transactions");
+    const transactions = await Transactions.deploy(
+      "Hello, world! I`m deploying"
+    );
+    await transactions.deployed();
+    expect(await transactions.getTransactionCount()).to.equal(0);
+    await transactions.addToBlockchain(
+      addr1.address,
+      amount,
+      "from owner to addr1",
+      "keyword"
+    );
+    expect(await transactions.getTransactionCount()).to.equal(1);
+    await transactions.addToBlockchain(
+      addr2.address,
+      amount,
+      "from owner to addr2",
+      "keyword"
+    );
+    expect(await transactions.getTransactionCount()).to.equal(2);
+    const AllTransactions = await transactions.getAllTransactions();
+    console.log(
+      "🚀 ~ file: index.ts ~ line 28 ~ transactions",
+      AllTransactions
+    );
   });
 });
