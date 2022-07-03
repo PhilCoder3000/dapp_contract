@@ -14,11 +14,12 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: 12,
-  },
+  },  
   rules: {
     "node/no-unsupported-features/es-syntax": [
       "error",
       { ignores: ["modules"] },
     ],
+    "linebreak-style": []
   },
 };

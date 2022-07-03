@@ -32,3 +32,17 @@ describe("Transactions", function () {
     );
   });
 });
+
+describe("Mint NFT", function () {
+  it("Should be deployed", async function () {
+    const MintNFT = await ethers.getContractFactory('MintNFT')
+    const mintNFT = await MintNFT.deploy('Hello, MintNFT!')
+    await mintNFT.deployed();
+  
+    console.log("MintNFT deployed to:", mintNFT.address)
+    let txn = await mintNFT.makeAnEpicNFT()
+    await txn.wait()
+    txn = await mintNFT.makeAnEpicNFT()
+    await txn.wait()
+  });
+});

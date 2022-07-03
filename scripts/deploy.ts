@@ -2,11 +2,17 @@ import { ethers } from "hardhat";
 
 const main = async () => {
   const Transactions = await ethers.getContractFactory("Transactions");
-  const transactions = await Transactions.deploy("Hello, Hardhat!");
+  const transactions = await Transactions.deploy("Hello, Transactions!");
 
   await transactions.deployed();
 
   console.log("Transactions deployed to:", transactions.address);
+
+  const MintNFT = await ethers.getContractFactory('MintNFT')
+  const mintNFT = await MintNFT.deploy('Hello, MintNFT!')
+  await mintNFT.deployed();
+
+  console.log("MintNFT deployed to:", mintNFT.address)
 };
 
 const runMain = async () => {
